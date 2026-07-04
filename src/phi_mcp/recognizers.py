@@ -92,7 +92,10 @@ DEFAULT_RECOGNIZERS: tuple[Recognizer, ...] = (
     # --- Strongly structured ---------------------------------------------
     Recognizer(
         entity_type=entities.EMAIL_ADDRESS,
-        regex=r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b",
+        # Domain is label-structured (labels can't contain '.') and every
+        # quantifier is bounded, so matching is linear — no ReDoS on adversarial
+        # input. This also matches the address inside a "mailto:" prefix.
+        regex=r"\b[A-Za-z0-9._%+-]{1,64}@(?:[A-Za-z0-9-]{1,63}\.){1,8}[A-Za-z]{2,24}\b",
         base_score=0.9,
     ),
     Recognizer(
@@ -133,12 +136,6 @@ DEFAULT_RECOGNIZERS: tuple[Recognizer, ...] = (
         entity_type=entities.URL,
         regex=r"\bhttps?://[^\s<>\"')\]]+",
         base_score=0.6,
-    ),
-    Recognizer(
-        entity_type=entities.EMAIL_ADDRESS,  # covers "mailto:" prefixes too
-        regex=r"\bmailto:([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})\b",
-        base_score=0.9,
-        group=1,
     ),
     Recognizer(
         entity_type=entities.PHONE_NUMBER,

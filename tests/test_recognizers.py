@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import time
+
 import pytest
 
 from phi_mcp import entities
@@ -59,6 +61,36 @@ def test_bare_ssn_requires_context_but_dashed_does_not() -> None:
     assert entities.US_SSN not in _types(engine, "reference 078051120 here")
     assert entities.US_SSN in _types(engine, "SSN 078051120")
     assert entities.US_SSN in _types(engine, "078-05-1120")
+
+
+def test_email_detected_inside_mailto() -> None:
+    found = [
+        e
+        for e in RegexEngine().detect("write mailto:foo@bar.com now")
+        if e.entity_type == entities.EMAIL_ADDRESS
+    ]
+    assert len(found) == 1
+    assert found[0].text == "foo@bar.com"
+
+
+def test_email_regex_is_not_redos_prone() -> None:
+    # The vulnerable (unbounded, overlapping) domain pattern took multiple seconds
+    # on this input; the bounded, label-structured pattern is linear (~20ms).
+    engine = RegexEngine()
+    pathological = "a" * 40000 + "@" + "b." * 20000
+    start = time.perf_counter()
+    engine.detect(pathological)
+    assert time.perf_counter() - start < 2.0
+
+
+def test_context_words_match_on_word_boundary() -> None:
+    # "tel" inside "hotel" must NOT boost the phone score (0.6 base, not 0.95).
+    (phone,) = [
+        e
+        for e in RegexEngine().detect("hotel 212-555-1234")
+        if e.entity_type == entities.PHONE_NUMBER
+    ]
+    assert phone.score == pytest.approx(0.6)
 
 
 def test_detection_is_deterministic() -> None:

@@ -39,12 +39,24 @@ class RegexEngine:
 
     def __init__(self, recognizers: tuple[Recognizer, ...] = DEFAULT_RECOGNIZERS) -> None:
         self._recognizers = recognizers
-        # Compile once; recognizers are immutable so this is safe to cache.
-        self._compiled = [(rec, re.compile(rec.regex, rec.flags)) for rec in recognizers]
+        # Compile once; recognizers are immutable so this is safe to cache. Each
+        # entry also carries a compiled context matcher (or None) so context words
+        # match on word boundaries — "lab" must not fire inside "collaborate".
+        self._compiled = [
+            (rec, re.compile(rec.regex, rec.flags), self._context_matcher(rec))
+            for rec in recognizers
+        ]
+
+    @staticmethod
+    def _context_matcher(rec: Recognizer) -> re.Pattern[str] | None:
+        if not rec.context:
+            return None
+        alternation = "|".join(re.escape(word) for word in rec.context)
+        return re.compile(rf"\b(?:{alternation})\b", re.IGNORECASE)
 
     def detect(self, text: str) -> list[Entity]:
         entities: list[Entity] = []
-        for rec, pattern in self._compiled:
+        for rec, pattern, context in self._compiled:
             for match in pattern.finditer(text):
                 start, end = match.span(rec.group)
                 if start < 0 or start >= end:  # group didn't participate
@@ -54,7 +66,7 @@ class RegexEngine:
                 if rec.validator is not None and not rec.validator(value):
                     continue
 
-                score = self._score(rec, text, start, end)
+                score = self._score(rec, context, text, start, end)
                 if score is None:  # context required but absent
                     continue
 
@@ -70,13 +82,15 @@ class RegexEngine:
         return entities
 
     @staticmethod
-    def _score(rec: Recognizer, text: str, start: int, end: int) -> float | None:
+    def _score(
+        rec: Recognizer, context: re.Pattern[str] | None, text: str, start: int, end: int
+    ) -> float | None:
         """Return the context-adjusted score, or ``None`` to drop the match."""
-        if not rec.context:
+        if context is None:
             return min(rec.base_score, 1.0)
 
-        window = text[max(0, start - CONTEXT_WINDOW_BEFORE) : end + CONTEXT_WINDOW_AFTER].lower()
-        has_context = any(word in window for word in rec.context)
+        window = text[max(0, start - CONTEXT_WINDOW_BEFORE) : end + CONTEXT_WINDOW_AFTER]
+        has_context = context.search(window) is not None
 
         if not has_context:
             return None if rec.context_required else min(rec.base_score, 1.0)
