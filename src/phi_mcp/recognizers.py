@@ -89,6 +89,13 @@ DEFAULT_RECOGNIZERS: tuple[Recognizer, ...] = (
         context=("card", "credit", "visa", "mastercard", "amex", "payment"),
         validator=checksums.luhn_is_valid,
     ),
+    Recognizer(
+        entity_type=entities.IBAN_CODE,
+        regex=r"\b[A-Z]{2}\d{2}(?:[ ]?[A-Z0-9]){11,30}\b",
+        base_score=0.85,
+        context=("iban", "bank", "account", "swift", "bic", "wire", "transfer"),
+        validator=checksums.iban_is_valid,
+    ),
     # --- Strongly structured ---------------------------------------------
     Recognizer(
         entity_type=entities.EMAIL_ADDRESS,
