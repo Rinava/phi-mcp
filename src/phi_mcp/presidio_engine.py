@@ -43,7 +43,7 @@ class PresidioEngine:
 
     #: Presidio's native names for the entities we take from it — the ones the
     #: regex engine can't produce.
-    _NER_ENTITIES = ["PERSON", "LOCATION", "NRP", "DATE_TIME"]
+    _NER_ENTITIES = ("PERSON", "LOCATION", "NRP", "DATE_TIME")
 
     def __init__(self, spacy_model: str = "en_core_web_lg", language: str = "en") -> None:
         try:
@@ -67,7 +67,7 @@ class PresidioEngine:
         ner = self._analyzer.analyze(
             text=text,
             language=self._language,
-            entities=self._NER_ENTITIES,
+            entities=list(self._NER_ENTITIES),
             score_threshold=0.0,
         )
         # NER entity names (PERSON, LOCATION, NRP, DATE_TIME) are already canonical.
