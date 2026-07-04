@@ -9,7 +9,7 @@ seriously and handled with priority.
 
 Report privately using **[GitHub Private Vulnerability Reporting](https://github.com/Rinava/phi-mcp/security/advisories/new)**
 (Security → Report a vulnerability). If that is unavailable, email
-**1laramateo@gmail.com** with details.
+**laramateoco@gmail.com** with details.
 
 Please include:
 
