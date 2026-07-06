@@ -57,9 +57,7 @@ def test_entity_threshold_below_detection_floor_is_rejected() -> None:
 # --- Disabled entities ------------------------------------------------------
 def test_disabled_entity_is_not_redacted() -> None:
     text = "visit http://x.io and a@b.co"
-    engine = FakeEngine(
-        make_entities(text, ("URL", 6, 16, 0.6), ("EMAIL_ADDRESS", 21, 28, 0.9))
-    )
+    engine = FakeEngine(make_entities(text, ("URL", 6, 16, 0.6), ("EMAIL_ADDRESS", 21, 28, 0.9)))
     redactor = Redactor(engine, disabled_entities=frozenset({"URL"}))
     result = redactor.redact(text)
     assert "http://x.io" in result.redacted_text  # URL left intact
