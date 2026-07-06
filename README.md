@@ -1,4 +1,4 @@
-<!-- mcp-name: io.github.rinava/umbryn-mcp -->
+<!-- mcp-name: io.github.Rinava/umbryn-mcp -->
 
 # umbryn-mcp
 
