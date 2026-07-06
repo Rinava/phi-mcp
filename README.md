@@ -4,7 +4,7 @@
 
 **An MCP server that redacts PII/PHI from text before it ever reaches an LLM — self-hosted, fail-closed, and HIPAA-aware.**
 
-[![PyPI version](https://img.shields.io/pypi/v/umbryn-mcp.svg)](https://pypi.org/project/umbryn-mcp/)
+[![PyPI version](https://img.shields.io/pypi/v/umbryn-mcp.svg)](https://pypi.org/project/umbryn-mcp/) 
 [![Tests](https://img.shields.io/github/actions/workflow/status/Rinava/umbryn-mcp/ci.yml?branch=main&label=tests)](https://github.com/Rinava/umbryn-mcp/actions/workflows/ci.yml)
 [![Python versions](https://img.shields.io/pypi/pyversions/umbryn-mcp.svg)](https://pypi.org/project/umbryn-mcp/)
 [![License: MIT](https://img.shields.io/github/license/Rinava/umbryn-mcp)](LICENSE)
