@@ -4,10 +4,10 @@
 
 **An MCP server that redacts PII/PHI from text before it ever reaches an LLM — self-hosted, fail-closed, and HIPAA-aware.**
 
-[![PyPI version](https://img.shields.io/pypi/v/umbryn-mcp.svg)](https://pypi.org/project/umbryn-mcp/) 
+[![PyPI version](https://img.shields.io/pypi/v/umbryn-mcp.svg?v=2)](https://pypi.org/project/umbryn-mcp/) 
 [![Tests](https://img.shields.io/github/actions/workflow/status/Rinava/umbryn-mcp/ci.yml?branch=main&label=tests)](https://github.com/Rinava/umbryn-mcp/actions/workflows/ci.yml)
-[![Python versions](https://img.shields.io/pypi/pyversions/umbryn-mcp.svg)](https://pypi.org/project/umbryn-mcp/)
-[![License: MIT](https://img.shields.io/github/license/Rinava/umbryn-mcp)](LICENSE)
+[![Python versions](https://img.shields.io/pypi/pyversions/umbryn-mcp.svg?v=2)](https://pypi.org/project/umbryn-mcp/)
+[![License: MIT](https://img.shields.io/github/license/Rinava/umbryn-mcp?v=2)](LICENSE)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
