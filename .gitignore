@@ -29,6 +29,9 @@ coverage.xml
 # spaCy / Presidio models (downloaded locally, never vendored)
 models/
 
+# MCP registry publisher CLI (downloaded binary, never vendored)
+mcp-publisher
+
 # Editors / OS
 .idea/
 .vscode/
