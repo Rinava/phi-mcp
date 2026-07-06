@@ -221,14 +221,16 @@ def _pick_float(
 
 
 _TRUE = frozenset({"1", "true", "yes", "on"})
-_FALSE = frozenset({"0", "false", "no", "off", ""})
+_FALSE = frozenset({"0", "false", "no", "off"})
 
 
 def _pick_bool(
     env: Mapping[str, str], env_key: str, file_data: Mapping[str, Any], file_key: str, default: bool
 ) -> bool:
     raw = env.get(env_key)
-    if raw is not None:
+    # An empty env var means "unset" (fall through to the file), matching the
+    # scalar helpers above.
+    if raw is not None and raw.strip() != "":
         lowered = raw.strip().lower()
         if lowered in _TRUE:
             return True
