@@ -6,6 +6,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+- **PEP 561 typing marker**: ship a `py.typed` file so downstream users who
+  `pip install umbryn-mcp` actually receive the package's inline type
+  information under mypy/pyright. The distribution already advertised
+  `Typing :: Typed`, but the marker was missing, so type checkers treated the
+  package as untyped.
 ### Added
 - **Published benchmark**: per-entity precision/recall for the default engine in
   the README, reproducible via `python eval/run_eval.py --markdown`. The eval
