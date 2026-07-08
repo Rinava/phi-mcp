@@ -218,11 +218,22 @@ DEFAULT_RECOGNIZERS: tuple[Recognizer, ...] = (
         context_required=True,
         validator=checksums.nhs_is_valid,
     ),
+    # Australian TFN: 9 digits (printed 3-3-3) with a mod-11 weighted check.
+    # The checksum passes ~1 in 11 random 9-digit runs, so require a nearby
+    # "TFN" / "tax file number" trigger, like NHS and SIN.
+    Recognizer(
+        entity_type=entities.AUSTRALIA_TFN,
+        regex=r"\b\d{3}[ -]?\d{3}[ -]?\d{3}\b",
+        base_score=0.4,
+        context=("tfn", "tax file number", "tax file"),
+        context_required=True,
+        validator=checksums.tfn_is_valid,
+    ),
     # Canadian SIN: 9 digits (printed 3-3-3) with a Luhn check. Luhn alone passes
     # ~1 in 10 random numbers, so require a nearby "SIN"/"social insurance".
     Recognizer(
         entity_type=entities.CANADA_SIN,
-        regex=r"\b\d{3}[ -]\d{3}[ -]\d{3}\b",
+        regex=r"\b\d{3}[ -]?\d{3}[ -]?\d{3}\b",
         base_score=0.4,
         context=("sin", "social insurance"),
         context_required=True,
