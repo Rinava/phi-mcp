@@ -18,6 +18,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   corpus now exercises every shipped recognizer (ITIN, NHS, SIN, HICN, driver's
   license), with checksum-failing look-alikes woven in as distractors, and the
   CI quality gate now also covers `MEDICARE_HICN` and `US_DRIVERS_LICENSE`.
+- **New recognizer**: Australian Tax File Number (`AUSTRALIA_TFN`, mod-11
+  weighted checksum), context-gated on nearby `TFN` / `tax file number` text.
 
 ## [0.2.0] - 2026-07-06
 

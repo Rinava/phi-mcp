@@ -211,6 +211,7 @@ A ready-to-copy example lives at [`examples/umbryn_config.json`](examples/umbryn
 | **CLIA** lab number | ✅ | ✅ |
 | **US ITIN** (9XX-range structure) | ✅ | ✅ |
 | **UK NHS number** (mod-11 check) | ✅ | ✅ |
+| **Australian TFN** (mod-11 check) | ✅ | ✅ |
 | **Canadian SIN** (Luhn check) | ✅ | ✅ |
 | **US driver's license** (context-anchored) | ✅ | ✅ |
 | **IBAN** (mod-97 / ISO 7064 check) | ✅ | ✅ |
